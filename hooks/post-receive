@@ -1,0 +1,13 @@
+#!/bin/sh
+
+GIT_DIR="/usr/share/nginx/repo/presentaciones"
+WORK_TREE="/usr/share/nginx/presentaciones"
+TARGET_BRANCH="master"
+
+while read OLDREV NEWREV REFNAME
+do
+    BRANCH=$(git rev-parse --symbolic --abbrev-ref $REFNAME)
+    if [ -n "$BRANCH" ] && [ "$TARGET_BRANCH" == "$BRANCH" ]; then
+        git --work-tree=$WORK_TREE --git-dir=$GIT_DIR checkout -f
+    fi
+done
